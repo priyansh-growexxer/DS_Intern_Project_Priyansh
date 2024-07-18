@@ -21,7 +21,7 @@ spark = SparkSession.builder.appName("Kafka") \
     .getOrCreate()
  
 # Kafka topic to subscribe to
-kafka_topic_name = "inventory-dataset"
+kafka_topic_name = "inventory-management"
 kafka_bootstrap_servers = "localhost:9092"
 
 blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net", credential=account_key)
@@ -77,7 +77,7 @@ def main():
         return (input.writeStream
         .foreachBatch(save_to_buffer)
         .outputMode('append')
-        .trigger(processingTime='15 minutes')
+        .trigger(processingTime='5 minutes')
         .start())
 
     query = streamWriter(data)

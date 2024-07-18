@@ -6,7 +6,7 @@ from confluent_kafka import Producer
 # Kafka producer configuration
 conf = {
     'bootstrap.servers': 'localhost:9092',
-    'client.id': 'inventory-dataset'
+    'client.id': 'inventory-management'
 }
 
 # Create Producer instance
@@ -34,8 +34,8 @@ for index, row in df.iterrows():
     message_json = json.dumps(row.to_dict(), default=convert_timestamp)
     
     # Produce the JSON message to the Kafka topic
-    producer.produce('inventory-dataset', value=message_json, callback=delivery_report)
+    producer.produce('inventory-management', value=message_json, callback=delivery_report)
     producer.poll(0)
-    time.sleep(0.01)
+    time.sleep(0.003)
 
 producer.flush()
